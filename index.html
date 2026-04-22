@@ -644,7 +644,7 @@
 
 <!-- MARQUEE -->
 <div class="marquee-wrap" aria-hidden="true">
-  <div class="marquee-track" id="marqueeTrack">
+  <div class="marquee-track">
     <div class="marquee-item">Angular</div>
     <div class="marquee-item">Node.js</div>
     <div class="marquee-item">TypeScript</div>
@@ -982,20 +982,6 @@ document.querySelectorAll('.sec-title[data-split]').forEach(el=>{
   splitTitle(el);
 });
 
-// ─── DYNAMIC MARQUEE SPEED on scroll ───
-const marqueeTrack = document.getElementById('marqueeTrack');
-let marqueeSpeed = 28, targetSpeed = 28, lastScroll = 0, lastScrollTime = Date.now();
-function updateMarquee() {
-  const now = Date.now();
-  const dt = now - lastScrollTime || 1;
-  const velocity = Math.abs(window.scrollY - lastScroll) / dt * 16;
-  lastScroll = window.scrollY;
-  lastScrollTime = now;
-  targetSpeed = Math.max(8, 28 - velocity * 2.5);
-  marqueeSpeed += (targetSpeed - marqueeSpeed) * 0.08;
-  marqueeTrack.style.animationDuration = marqueeSpeed + 's';
-}
-
 // ─── SECTION PARALLAX BACKGROUNDS ───
 function updateParallax() {
   document.querySelectorAll('.section-wrap').forEach(sec=>{
@@ -1016,7 +1002,6 @@ window.addEventListener('scroll',()=>{
       if(heroBg) heroBg.style.transform=`translate(-50%, calc(-50% + ${s*0.3}px))`;
       document.getElementById('nav').classList.toggle('solid', s>60);
       updateProgress();
-      updateMarquee();
       updateParallax();
       // active nav
       const secs=['about','work','experience','contact'];
