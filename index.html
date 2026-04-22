@@ -63,24 +63,43 @@
 
   /* ─── CURSOR ─── */
   #cur {
-    position:fixed; width:6px; height:6px;
-    background:var(--amber); border-radius:50%;
+    position:fixed; width:4px; height:4px;
+    background:var(--white); border-radius:50%;
     pointer-events:none; z-index:9999;
     transform:translate(-50%,-50%);
+    transition:transform 0.15s, width 0.2s, height 0.2s, opacity 0.2s;
     will-change:transform;
   }
   #cur-ring {
-    position:fixed; width:28px; height:28px;
-    border:1px solid rgba(61,139,255,0.6); border-radius:50%;
+    position:fixed; width:1px; height:1px;
     pointer-events:none; z-index:9998;
     transform:translate(-50%,-50%);
-    transition:width 0.4s cubic-bezier(0.34,1.56,0.64,1),
-               height 0.4s cubic-bezier(0.34,1.56,0.64,1),
-               border-color 0.3s, background 0.3s;
     will-change:transform;
   }
-  #cur-ring.big  { width:48px; height:48px; border-color:var(--amber); background:rgba(240,160,48,0.05); }
-  #cur-ring.clicking { width:20px; height:20px; background:rgba(61,139,255,0.15); }
+  #cur-ring::before,
+  #cur-ring::after {
+    content:'';
+    position:absolute;
+    background:rgba(233,235,242,0.25);
+    transition:all 0.25s cubic-bezier(0.22,1,0.36,1);
+  }
+  /* horizontal line */
+  #cur-ring::before {
+    width:18px; height:1px;
+    top:0; left:50%;
+    transform:translateX(-50%);
+  }
+  /* vertical line */
+  #cur-ring::after {
+    width:1px; height:18px;
+    left:0; top:50%;
+    transform:translateY(-50%);
+  }
+  #cur-ring.big::before { width:28px; background:rgba(233,235,242,0.4); }
+  #cur-ring.big::after  { height:28px; background:rgba(233,235,242,0.4); }
+  #cur-ring.clicking::before,
+  #cur-ring.clicking::after { background:var(--amber); }
+  #cur.big { width:3px; height:3px; }
 
   /* ─── NAV ─── */
   nav {
@@ -632,7 +651,7 @@
     nav{padding:18px 28px;}
     .nav-links li:not(:last-child){display:none;}
     .section-wrap,#work,#contact{padding:72px 24px;}
-    #hero{padding:0 24px 72px;}
+    #hero{padding:120px 24px 64px; min-height:auto; justify-content:center;}
     #about .about-grid{grid-template-columns:1fr;}
     .project-item{grid-template-columns:1fr;}
     .project-arrow{display:none;}
@@ -766,8 +785,9 @@
         <div class="skills-group">
           <div class="skills-group-label">Cloud / Tools</div>
           <div class="skill-chips">
-            <span class="chip">AWS</span><span class="chip">Docker</span>
-            <span class="chip">Git</span><span class="chip">CI/CD</span><span class="chip">Streamlit</span>
+            <span class="chip">AWS</span><span class="chip">AWS S3</span>
+            <span class="chip">Docker</span><span class="chip">Git</span>
+            <span class="chip">CI/CD</span><span class="chip">Streamlit</span>
           </div>
         </div>
         <div class="skills-group">
@@ -779,8 +799,8 @@
         </div>
       </div>
       <div class="building-callout rv d3">
-        <div class="building-label">Currently Building</div>
-        <p><strong>AI-Assisted Personal Brand System</strong> — designing and scaling an end-to-end content pipeline that processes raw footage into fully edited, AI-enhanced short-form video using Python, Whisper, Claude API, and FFmpeg.</p>
+        <div class="building-label">Latest Build</div>
+        <p><strong>LUMIQ</strong> — a production-level AI video pipeline with AWS S3 cloud backup, a branded password-protected dashboard, hook A/B testing, and automated video editing. Built and shipped as a real working tool.</p>
       </div>
     </div>
   </div>
@@ -831,19 +851,20 @@
         <div class="project-meta-row">
           <span class="project-number">02</span>
           <span class="badge badge-featured">AI + Automation</span>
+          <span class="badge badge-capstone">AWS Cloud</span>
         </div>
-        <h3 class="project-title">AI-Assisted Personal Brand System</h3>
-        <p class="project-summary">End-to-end Python pipeline that processes raw phone footage into a fully edited, caption-burned, ready-to-post short-form video — triggered by a single command.</p>
+        <h3 class="project-title">LUMIQ — AI Personal Brand System</h3>
+        <p class="project-summary">Production-level AI video pipeline that transcribes, scores, edits, and packages raw footage into ready-to-post social media content — with cloud backup and a fully branded dashboard.</p>
         <ul class="project-bullets">
-          <li>Built a content pipeline that transcribes raw footage via OpenAI Whisper, sends the transcript to Claude API for scoring, and outputs a structured JSON package with hooks, captions, and hashtags</li>
-          <li>Built an automated video editing stage using FFmpeg: silence removal, cue-word-triggered cuts, 9:16 crop, hook text overlay, and synced ASS subtitle generation</li>
-          <li>Designed modular Python architecture separating transcription, AI processing, and video generation into distinct service layers for scalability and maintainability</li>
-          <li>Built a Streamlit dashboard for content review, approval workflow, and post status tracking — runs at ~$0.02 per video</li>
+          <li>Built an end-to-end pipeline using OpenAI Whisper for local transcription, Claude API for AI scoring and personalized content generation, and FFmpeg for automated video editing including silence removal, cue-word cuts, 9:16 crop, hook overlay, and synced subtitle generation</li>
+          <li>Engineered a hook A/B testing system using prompt engineering that generates 3 personalized hook variations per video tuned to creator brand voice, niche, and target audience</li>
+          <li>Integrated AWS S3 for automated cloud backup of all processed video and content packages, with storage stats surfaced in the dashboard</li>
+          <li>Built a branded, password-protected Streamlit dashboard with file validation, rate limiting, input sanitization, a security audit log, and four tabs: Upload, Content Library, Analytics, and Settings</li>
         </ul>
         <div class="project-tags">
           <span class="project-tag">Python</span><span class="project-tag">Claude API</span>
           <span class="project-tag">Whisper</span><span class="project-tag">FFmpeg</span>
-          <span class="project-tag">Streamlit</span>
+          <span class="project-tag">AWS S3</span><span class="project-tag">Streamlit</span>
         </div>
         <div class="project-links">
           <a href="https://github.com/SchiffOli/personal-brand-system" target="_blank" class="project-link">View Code →</a>
@@ -973,14 +994,14 @@ function updateProgress() {
   progressBar.style.width = (scrollTop / docH * 100) + '%';
 }
 
-// ─── CURSOR (spring physics) ───
+// ─── CURSOR ───
 const cur  = document.getElementById('cur');
 const ring = document.getElementById('cur-ring');
 let mx=0,my=0,rx=0,ry=0,vx=0,vy=0;
 document.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
 document.addEventListener('mousedown',()=>ring.classList.add('clicking'));
 document.addEventListener('mouseup',()=>ring.classList.remove('clicking'));
-const stiffness=0.12,damping=0.75;
+const stiffness=0.14,damping=0.78;
 (function spring(){
   const fx=(mx-rx)*stiffness,fy=(my-ry)*stiffness;
   vx=(vx+fx)*damping; vy=(vy+fy)*damping;
@@ -989,8 +1010,8 @@ const stiffness=0.12,damping=0.75;
   requestAnimationFrame(spring);
 })();
 document.querySelectorAll('a,button,.project-item,.chip,.edu-card,.building-callout').forEach(el=>{
-  el.addEventListener('mouseenter',()=>ring.classList.add('big'));
-  el.addEventListener('mouseleave',()=>ring.classList.remove('big'));
+  el.addEventListener('mouseenter',()=>{ ring.classList.add('big'); cur.classList.add('big'); });
+  el.addEventListener('mouseleave',()=>{ ring.classList.remove('big'); cur.classList.remove('big'); });
 });
 
 // ─── MAGNETIC BUTTONS ───
